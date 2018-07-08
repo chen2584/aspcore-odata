@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,7 @@ namespace aspcore_odata
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOData();
+            services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase("BookLists"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -46,6 +48,7 @@ namespace aspcore_odata
 
             app.UseHttpsRedirection();
             app.UseMvc(x => {
+                x.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
                 x.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
         }
