@@ -32,12 +32,6 @@ public class BooksController : ODataController
     }
 
     [EnableQuery]
-    public IActionResult Get(string ISBN)
-    {
-        return Ok(_db.Books.FirstOrDefault(x => x.ISBN == ISBN));
-    }
-
-    [EnableQuery]
     public IActionResult Post([FromBody]Book book)
     {
         _db.Books.Add(book);
