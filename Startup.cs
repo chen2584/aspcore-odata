@@ -48,13 +48,14 @@ namespace aspcore_odata
 
             app.UseHttpsRedirection();
             app.UseMvc(x => {
-                x.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+                x.Select().Expand().Filter().OrderBy().MaxTop(100).Count(); //filter ที่อนุญาติให้ใช้ได้
                 x.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
         }
 
         private static IEdmModel GetEdmModel()
         {
+            // ต้องใส่ให้ตรงกับ Controller Name ไม่งั้นจะหา URL Path 404
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Book>("Books");
             builder.EntitySet<Press>("Presses");
